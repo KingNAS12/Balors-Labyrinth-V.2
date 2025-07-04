@@ -4,6 +4,15 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine; 
 using UnityEngine.InputSystem.Processors;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using NUnit.Framework.Constraints;
+using TreeEditor;
+using Unity.Mathematics;
+using UnityEditor.Rendering;
+using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class KnightScript : MonoBehaviour
 {
@@ -30,7 +39,7 @@ public class KnightScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkMove();
+        checkMove(); 
         checkAttack();
     }
     public void checkMove() // Checks the user's inputs, and accordingly moves the Knight. 
@@ -68,22 +77,25 @@ public class KnightScript : MonoBehaviour
             }
             transform.localScale = new UnityEngine.Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
+        float x1 = 0;
+        float y1 = 0; 
         if (Input.GetKey(KeyCode.W) == true) // Move Up
         {
-            transform.Translate(new UnityEngine.Vector2(0, walkSpeed * Time.deltaTime));
+            y1 = walkSpeed; 
         }
         if (Input.GetKey(KeyCode.A) == true) // Move Left
         {
-            transform.Translate(new UnityEngine.Vector2(-walkSpeed * Time.deltaTime, 0));
+            x1 = -walkSpeed; 
         }
         if (Input.GetKey(KeyCode.S) == true) // Move Down
         {
-            transform.Translate(new UnityEngine.Vector2(0, -walkSpeed * Time.deltaTime));
+            y1 = -walkSpeed;
         }
         if (Input.GetKey(KeyCode.D) == true) // Move Right
         {
-            transform.Translate(new UnityEngine.Vector2(walkSpeed * Time.deltaTime, 0));
+            x1 = walkSpeed; 
         }
+        transform.Translate(new UnityEngine.Vector2(x1*Time.deltaTime, y1*Time.deltaTime));
     }
 
     public void checkAttack() // Check the user's input and accordingly use weapons. 
