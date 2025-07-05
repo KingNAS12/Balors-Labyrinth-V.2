@@ -22,10 +22,10 @@ public class SwordScript : MonoBehaviour
             swordObject = Instantiate(swordPrefab, transform.position, Quaternion.identity, transform.parent);
             isSpawned = true;
         }
-        else if (knightAnimator.GetBool("isAttacking") == false && isSpawned == true) 
+        /*else if (knightAnimator.GetBool("isAttacking") == false && isSpawned == true) 
         {
             Destroy(swordObject);
             isSpawned = false; 
-        }
+        }*/
     }
 }

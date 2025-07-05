@@ -103,4 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d3d57c0f21568459550cfd2eb78161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Knight: {fileID: 7998326414757664749, guid: c6ec48fa912cc334db52295bbfa3845a, type: 3}
+  swordCollider: {fileID: 4977713882425222306}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64

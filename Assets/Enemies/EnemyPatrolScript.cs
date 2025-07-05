@@ -36,6 +36,8 @@ public class EnemyPatrolScript : MonoBehaviour
         // Save original coordinates. 
         x0 = transform.position.x;
         y0 = transform.position.y;
+        attackBoxCollider = transform.GetChild(0).GetComponent<BoxCollider2D>();
+        sightBoxCollider = transform.GetChild(1).GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
