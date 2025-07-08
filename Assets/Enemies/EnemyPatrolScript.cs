@@ -42,6 +42,7 @@ public class EnemyPatrolScript : MonoBehaviour
         y0 = transform.position.y;
         attackBoxCollider = transform.GetChild(0).GetComponent<BoxCollider2D>();
         sightBoxCollider = transform.GetChild(1).GetComponent<BoxCollider2D>();
+        Player = GameObject.Find("Knight"); 
     }
 
     // Update is called once per frame

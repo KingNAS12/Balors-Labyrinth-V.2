@@ -278,16 +278,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d5d2929f1789b44afa21fbdd27204b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 1
-  attackCooldownTimer: 0
-  followCooldown: 0.5
-  followCooldownTimer: 0
-  horSpeed: 7
-  vertSpeed: 3
   bodyBoxCollider: {fileID: 3243257282950917311}
   attackBoxCollider: {fileID: 0}
   sightBoxCollider: {fileID: 0}
-  sibSepDist: 0.1
+  Player: {fileID: 0}
+  oldWallHit: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -297,10 +292,15 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  Player: {fileID: 0}
   x0: 6.75
   y0: 17
-  oldWallHit: {fileID: 0}
+  attackCooldown: 1
+  attackCooldownTimer: 0
+  followCooldown: 0.5
+  followCooldownTimer: 0
+  horSpeed: 7
+  vertSpeed: 3
+  sibSepDist: 0.1
 --- !u!1 &6207952951533948109
 GameObject:
   m_ObjectHideFlags: 0

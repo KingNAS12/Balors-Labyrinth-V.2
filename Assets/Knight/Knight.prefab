@@ -132,6 +132,143 @@ MonoBehaviour:
   swordObject: {fileID: 0}
   knightAnimator: {fileID: 2049051636935793126}
   isSpawned: 0
+--- !u!1 &6772412227380397325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5639344898075624525}
+  - component: {fileID: 6449090392444198532}
+  - component: {fileID: 6290479196058690760}
+  - component: {fileID: 4279802127786795466}
+  m_Layer: 3
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5639344898075624525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6772412227380397325}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 0.18931167, y: 0.21523252, z: 0.2426742}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3928614187198545492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &6449090392444198532
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6772412227380397325}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 1
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 1.1009265
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 165.62148
+  orthographic: 1
+  orthographic size: 6
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 0
+  m_HDR: 1
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 0
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &6290479196058690760
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6772412227380397325}
+  m_Enabled: 1
+--- !u!114 &4279802127786795466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6772412227380397325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &7998326414757664749
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +283,8 @@ GameObject:
   - component: {fileID: 1390177054931386252}
   - component: {fileID: 2049051636935793126}
   - component: {fileID: 9149115140158288401}
-  - component: {fileID: 1566176770031195204}
+  - component: {fileID: 6311161773687508573}
+  - component: {fileID: 4076158602867485170}
   m_Layer: 3
   m_Name: Knight
   m_TagString: Untagged
@@ -163,12 +301,13 @@ Transform:
   m_GameObject: {fileID: 7998326414757664749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 75.3, y: 27.3, z: -1}
+  m_LocalPosition: {x: 22.4, y: -2.9, z: -1}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3782416713107187689}
   - {fileID: 5391857689763640130}
+  - {fileID: 5639344898075624525}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5725125024881844892
@@ -287,7 +426,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.05, y: 0}
+  m_Offset: {x: -0.055, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -297,7 +436,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.25, y: 0.34}
+  m_Size: {x: 0.26, y: 0.34}
   m_EdgeRadius: 0
 --- !u!95 &2049051636935793126
 Animator:
@@ -342,7 +481,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1.3933306
+  MinDistance: 0.23240852
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -418,7 +557,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1566176770031195204
+--- !u!114 &6311161773687508573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -427,21 +566,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 7998326414757664749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94f66f65fa65a4843b29a0fed70d7c71, type: 3}
+  m_Script: {fileID: 11500000, guid: 82712babc2bdc024895eb00f99ef84dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knightRigidBody: {fileID: 2583804204070772254}
-  knightSpriteRenderer: {fileID: 5725125024881844892}
+  knightBoxCollider: {fileID: 1390177054931386252}
   knightAnimator: {fileID: 2049051636935793126}
-  knightBody: {fileID: 1390177054931386252}
   knightAudio: {fileID: 9149115140158288401}
   knightWalk: {fileID: 8300000, guid: 21cad918d58f54e4ab733b62ef7d9352, type: 3}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  backgroundLayer:
+    serializedVersion: 2
+    m_Bits: 32
+  walkingSound: 0
+  walkSpeed: 7
+  turnSpeed: 7
+--- !u!114 &4076158602867485170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998326414757664749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a54096e39a601648882dc4ecb3df4e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knightBoxCollider: {fileID: 1390177054931386252}
+  knightAnimator: {fileID: 2049051636935793126}
+  knightAudio: {fileID: 9149115140158288401}
   knightSwordSlash: {fileID: 8300000, guid: 7c5da4babe3fa104995f96c1f1170653, type: 3}
   knightAttackGrunt: {fileID: 8300000, guid: 9cb6562ca1fcd6945808e612594a44ca, type: 3}
   knightShieldSound: {fileID: 8300000, guid: 113afbfb7b8b4a245826c99769576cc3, type: 3}
   knightBlockGrunt: {fileID: 8300000, guid: 245742cf37a580146a72e7fbfca378c9, type: 3}
-  walkSpeed: 7
-  turnSpeed: 7
-  walkingSound: 0
   attackingSound: 0
   blockingSound: 0

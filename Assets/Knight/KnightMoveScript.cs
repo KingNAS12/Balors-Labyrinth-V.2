@@ -24,11 +24,6 @@ public class KnightMoveScript : MonoBehaviour
     void Update()
     {
         checkMove();
-        RaycastHit2D hitEnemy = Physics2D.BoxCast(knightBoxCollider.bounds.center, knightBoxCollider.size, 0, Vector2.left, 0, enemyLayer);
-        if (hitEnemy.collider == true)
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void checkMove() // Checks the user's inputs, and accordingly moves the Knight. 
