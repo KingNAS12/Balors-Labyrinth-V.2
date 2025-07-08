@@ -12,23 +12,27 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyPatrolScript : MonoBehaviour
 {
-    public float attackCooldown;
-    public float attackCooldownTimer = 0;
-    public float followCooldown;
-    public float followCooldownTimer = 0;
-    public int horSpeed;
-    public int vertSpeed;
-    public BoxCollider2D bodyBoxCollider; 
+    public BoxCollider2D bodyBoxCollider;
     public BoxCollider2D attackBoxCollider;
     public BoxCollider2D sightBoxCollider;
-    public float sibSepDist; 
+
+    public GameObject Player;
+    public Component oldWallHit = null;
+
     public LayerMask playerLayer;
     public LayerMask backgroundLayer;
     public LayerMask enemyLayer;
-    public GameObject Player;
-    public float x0; 
+
+    public float x0;
     public float y0;
-    public Component oldWallHit = null;
+
+    public float attackCooldown = 1;
+    public float attackCooldownTimer = 0;
+    public float followCooldown = 0.5f;
+    public float followCooldownTimer = 0;
+    public int horSpeed = 7;
+    public int vertSpeed = 3;
+    public float sibSepDist = 0.1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

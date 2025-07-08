@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SwordScript : MonoBehaviour
+public class SwordSpawnScript : MonoBehaviour
 {
     public GameObject swordPrefab;
     public GameObject swordObject;
@@ -22,10 +22,10 @@ public class SwordScript : MonoBehaviour
             swordObject = Instantiate(swordPrefab, transform.position, Quaternion.identity, transform.parent);
             isSpawned = true;
         }
-        /*else if (knightAnimator.GetBool("isAttacking") == false && isSpawned == true) 
+        else if (knightAnimator.GetBool("isAttacking") == false && isSpawned == true) 
         {
             Destroy(swordObject);
             isSpawned = false; 
-        }*/
+        }
     }
 }

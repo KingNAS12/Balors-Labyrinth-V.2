@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class swordScript : MonoBehaviour
+public class SwordHitScript : MonoBehaviour
 {
     public PolygonCollider2D swordCollider;
     public LayerMask enemyLayer; 
