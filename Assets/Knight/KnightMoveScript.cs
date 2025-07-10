@@ -11,6 +11,7 @@ public class KnightMoveScript : MonoBehaviour
     public LayerMask backgroundLayer;
 
     public bool walkingSound = false;
+    public bool isPaused = false; 
     public float walkSpeed = 7;
     public float turnSpeed = 7;
 
@@ -23,7 +24,10 @@ public class KnightMoveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkMove();
+        if (!isPaused)
+        {
+            checkMove();
+        }
     }
 
     public void checkMove() // Checks the user's inputs, and accordingly moves the Knight. 
@@ -101,6 +105,20 @@ public class KnightMoveScript : MonoBehaviour
             canMove = false; 
         }
         return canMove; 
+    }
+
+    public void pauseMovement()
+    {
+        isPaused = true;
+        knightAnimator.SetBool("isMoving", false);
+        walkingSound = false;
+        knightAudio.Stop();
+        knightAudio.loop = false;
+    }
+
+    public void resumeMovement()
+    {
+        isPaused = false;
     }
 }
 

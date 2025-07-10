@@ -6,15 +6,27 @@ public class PrologueSceneScript : MonoBehaviour
     public GameObject scroll1, scroll2, scroll3, scroll4, scroll5, scroll6, scroll7, scroll8, scroll9;
     public GameObject currentScroll = null;
     public AudioSource cutsceneAudio; 
-    public AudioClip dialogue1, dialogue2, dialogue3, dialogue4, dialogue5, dialogue6, dialogue7, dialogue8;
+    public AudioSource backgroundMusic;
+    public AudioClip dungeonTheme, dialogue1, dialogue2, dialogue3, dialogue4, dialogue5, dialogue6, dialogue7, dialogue8, dialogue9;
     public int scene = 0;
-    public Vector3 position; 
+    public Vector2 position; 
+    public LayerMask playerLayer;
+    public Camera camera;
+    public float xOffset;
+    public float yOffset;
+    public KnightMoveScript knightScript; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cutsceneAudio.loop = false;
-        position = GameObject.Find("Main Camera").transform.position; 
+        cutsceneAudio.volume = 0.5f;
+        backgroundMusic.loop = false;
+        backgroundMusic.volume = 0.5f;
+        backgroundMusic.clip = dungeonTheme; 
+        backgroundMusic.Play();
+        camera = Camera.main;
+        knightScript = GameObject.Find("Knight").GetComponent<KnightMoveScript>(); 
     }
 
     // Update is called once per frame
@@ -52,6 +64,10 @@ public class PrologueSceneScript : MonoBehaviour
             }
             else if (scene == 8)
             {
+                Prologue9();
+            }
+            else if (scene == 9)
+            {
                 PrologueEnd();
             }
         }
@@ -59,15 +75,27 @@ public class PrologueSceneScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        print("in"); 
-        Prologue1(); 
+        if (scene == 0 && collision.gameObject.layer == 3)
+        {
+            Prologue1();
+        }
     }
 
     public void Prologue1()
     {
+        float vertExtent = camera.orthographicSize;
+        float horzExtent = vertExtent * Screen.width / Screen.height;
+        Vector3 camPos = camera.transform.position;
+        float leftEdge = camPos.x - horzExtent;
+        //float rightEdge = camPos.x + horzExtent;
+        float bottomEdge = camPos.y - vertExtent;
+        //float topEdge = camPos.y + vertExtent;
+        position = new Vector2(leftEdge + xOffset, bottomEdge + yOffset);
+        knightScript.pauseMovement(); 
         currentScroll = Instantiate(scroll1, position, Quaternion.identity);
         scene = 1; 
         cutsceneAudio.clip = dialogue1;
+        backgroundMusic.volume = 0.3f;
         cutsceneAudio.Play();
     }
 
@@ -135,16 +163,17 @@ public class PrologueSceneScript : MonoBehaviour
     }
 
     public void Prologue9()
-    { /*
+    { 
         Destroy(currentScroll);
-        currentScroll = Instantiate(scroll9, transform.parent.transform.position, Quaternion.identity);
+        currentScroll = Instantiate(scroll9, position, Quaternion.identity);
         scene = 9;
         cutsceneAudio.clip = dialogue9;
-        cutsceneAudio.Play(); */
+        cutsceneAudio.Play(); 
     }
 
     public void PrologueEnd()
     {
-        Destroy(transform.gameObject);
+        Destroy(currentScroll);
+        knightScript.resumeMovement();
     }
 }
