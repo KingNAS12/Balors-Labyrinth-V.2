@@ -39,7 +39,6 @@ public class EnemySpawnScript : MonoBehaviour
         {
             for (int i = 0; i < 3; i++)
             {
-                print("state " + i + " " + state[i]); 
                 // Check if enemy is alive before spawning. 
                 if (state[i] == 0) // Never been spawned before. 
                 {

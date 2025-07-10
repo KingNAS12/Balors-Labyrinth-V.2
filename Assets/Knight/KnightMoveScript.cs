@@ -79,8 +79,8 @@ public class KnightMoveScript : MonoBehaviour
         {
             x1 = walkSpeed;
         }
-        Vector2 movement = new Vector2(x1 * Time.deltaTime, y1 * Time.deltaTime); 
-        bool canMove = checkCollide(movement);
+        Vector2 movement = new Vector2(x1 * Time.deltaTime, y1 * Time.deltaTime);
+        bool canMove = checkCollide(movement); 
         if (canMove)
         {
             transform.Translate(movement);

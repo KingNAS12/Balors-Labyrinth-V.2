@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SwordHitScript : MonoBehaviour
@@ -17,10 +18,10 @@ public class SwordHitScript : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D other)
     {
-        print("sword hit = " + other);
-        if (other.gameObject.layer == enemyLayer)
+        print("sword hit = " + other + " " + other.gameObject.layer);
+        if (other.gameObject.layer != enemyLayer)
         {
-            Destroy(other.gameObject);
+            Destroy(other);
         }
     }
 }
