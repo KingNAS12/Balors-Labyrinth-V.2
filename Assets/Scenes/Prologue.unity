@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1390177054931386252, guid: 113a21abcca56334ba8a3b6355c60baf, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3928614187198545492, guid: 113a21abcca56334ba8a3b6355c60baf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.322361
@@ -669,8 +673,8 @@ GameObject:
   - component: {fileID: 1984970129}
   - component: {fileID: 1984970128}
   - component: {fileID: 1984970127}
-  - component: {fileID: 1984970126}
   - component: {fileID: 1984970130}
+  - component: {fileID: 1984970126}
   m_Layer: 3
   m_Name: Grianmhar
   m_TagString: Untagged
