@@ -580,6 +580,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32
   walkingSound: 0
+  isPaused: 0
   walkSpeed: 7
   turnSpeed: 7
 --- !u!114 &4076158602867485170
