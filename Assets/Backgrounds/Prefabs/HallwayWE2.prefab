@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4169989905737871789, guid: 17e50472b7b80bc48b6ce06b6887dd17, type: 3}
       propertyPath: m_Name
-      value: HallwayHorV3
+      value: HallwayWE2
       objectReference: {fileID: 0}
     - target: {fileID: 4455155466258431258, guid: 17e50472b7b80bc48b6ce06b6887dd17, type: 3}
       propertyPath: m_Sprite

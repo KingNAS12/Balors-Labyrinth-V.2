@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7438169422633639399}
   - component: {fileID: 3176540915771964355}
   - component: {fileID: 3024836550196395821}
+  - component: {fileID: -3140699112225018412}
   m_Layer: 6
-  m_Name: HallwayHorV1
+  m_Name: HallwayWE0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,6 +137,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.8, y: 4.8}
   m_EdgeRadius: 0
+--- !u!114 &-3140699112225018412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2889187601990137716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676ea0322f68cb141924fa8cbf0630e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3278487605669509561
 GameObject:
   m_ObjectHideFlags: 0

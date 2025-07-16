@@ -356,6 +356,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1065225851}
+  - component: {fileID: 1065225852}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -378,6 +379,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1065225852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065225850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d77c219e1179e5848bd88c319c439c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockedTile: {fileID: 0}
+  tilePrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  hallwayBody: {fileID: 0}
+  bodyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  tileSizeX: 24
+  tileSizeY: 24
 --- !u!1 &1219899365
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,6 +611,14 @@ PrefabInstance:
     - target: {fileID: 3928614187198545492, guid: 113a21abcca56334ba8a3b6355c60baf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6134391581044641176, guid: 113a21abcca56334ba8a3b6355c60baf, type: 3}
+      propertyPath: offset.x
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6134391581044641176, guid: 113a21abcca56334ba8a3b6355c60baf, type: 3}
+      propertyPath: offset.y
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6311161773687508573, guid: 113a21abcca56334ba8a3b6355c60baf, type: 3}
       propertyPath: enemyLayer.m_Bits
