@@ -10,11 +10,12 @@ using System;
 public class MapGenerationScript : MonoBehaviour
 {
     public GameObject blockedTile; // Used like a pointer to Null, but not Null
-    public GameObject[] tilePrefabs = new GameObject[12]; // Contains prefabs of Hallway GameObject. 0 = hor1, 1 = hor2, 2 = vert, 3 = cornWN, 4 = cornWS, 5 = cornNE, 6 = cornES, 7 = 3wayWNE, 8 = 3wayWNS, 9 = 3wayWES, 10 = 3wayNES, 11 = 4way; 
+    public GameObject[] tilePrefabs = new GameObject[12]; // Contains prefabs of Hallway GameObject. 0 = hor1, 1 = hor2, 2 = vert, 3 = cornWN, 4 = cornWS, 5 = cornES, 6 = cornNE, 7 = 3wayWNE, 8 = 3wayWNS, 9 = 3wayWES, 10 = 3wayNES, 11 = 4way; 
     public BoxCollider2D hallwayBody; 
     public LayerMask bodyLayer;
     public float tileSizeX = 24;
     public float tileSizeY = 24;
+    public int stackSize = 0; 
 
     void Start()
     {
@@ -26,6 +27,16 @@ public class MapGenerationScript : MonoBehaviour
 
     public GameObject GenerationRecursion(GameObject recursingNode)
     {
+        if (stackSize >= 100)
+        {
+            stackSize = 0;
+            GenerateLoop(recursingNode);
+            return recursingNode; 
+        }
+        else
+        {
+            stackSize++; 
+        }
         TileScript recursingScript = recursingNode.GetComponent<TileScript>();
         if (recursingScript.GetWest() == null)
         {
@@ -342,7 +353,7 @@ public class MapGenerationScript : MonoBehaviour
                 }
             }
         }
-        // 26% chance to create a corner. 50/50 chance of what direction of corner. 
+        // 26% chance to create a corner. 50/50 chance for direction. 
         else if (40 <= a && a < 53) 
         {
             if (childDirection == "E")
@@ -359,13 +370,13 @@ public class MapGenerationScript : MonoBehaviour
             }
             else if (childDirection == "W")
             {
-                newNode = Instantiate(tilePrefabs[6], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                newNode = Instantiate(tilePrefabs[5], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(blockedTile, blockedTile, parentNode, null, "cornES");
             }
             else // if (childDirection == "N")
             {
-                newNode = Instantiate(tilePrefabs[6], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                newNode = Instantiate(tilePrefabs[5], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(blockedTile, blockedTile, null, parentNode, "cornES");
             }
@@ -386,47 +397,102 @@ public class MapGenerationScript : MonoBehaviour
             }
             else if (childDirection == "W")
             {
-                newNode = Instantiate(tilePrefabs[5], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                newNode = Instantiate(tilePrefabs[6], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(blockedTile, null, blockedTile, parentNode, "cornNE");
             }
             else // if (childDirection == "S")
             {
-                newNode = Instantiate(tilePrefabs[5], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                newNode = Instantiate(tilePrefabs[6], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "cornNE");
             }
         }
-        if (65 < a && a <= 90) // 25% chance of 3 way intersection. 
+        if (65 < a && a <= 90) // 25% chance of 3 way intersection. 1/3 chance for direction. 
         {
-            if (childDirection != "W") // childDirection is definitely not west. 
+            int b = UnityEngine.Random.Range(0, 3);
+            if (childDirection == "W")
             {
-                newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
-                TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "3wayWNS");
-            }
-            else // childDirection could be West
-            {
-                if (childDirection == "N")
-                {
-                    if (childDirection == "E")
-                    {
-                        newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
-                        TileScript newTileScript = newNode.GetComponent<TileScript>();
-                        newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "3wayWES");
-                    }
-                    else // if (childDirection == “S”)
-                    {
-                        newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
-                        TileScript newTileScript = newNode.GetComponent<TileScript>();
-                        newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "3wayNES");
-                    }
-                }
-                else
+                if (b == 0)
                 {
                     newNode = Instantiate(tilePrefabs[7], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "3wayWNE");
+                    newTileScript.CreateNode(null, null, parentNode, blockedTile, "3wayWNE");
+                }
+                else if (b == 1)
+                {
+                    newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(null, blockedTile, parentNode, null, "3wayWES");
+                }
+                else
+                {
+                    newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(blockedTile, null, parentNode, null, "3wayNES");
+                }
+            }
+            else if (childDirection == "N")
+            {
+                if (b == 0)
+                {
+                    newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(null, null, blockedTile, parentNode, "3wayWNS");
+                }
+                else if (b == 1)
+                {
+                    newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(null, blockedTile, null, parentNode, "3wayWES");
+                }
+                else
+                {
+                    newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(blockedTile, null, null, parentNode, "3wayNES");
+                }
+            }
+            else if (childDirection == "E")
+            {
+                if (b == 0)
+                {
+                    newNode = Instantiate(tilePrefabs[7], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(parentNode, null, null, blockedTile, "3wayWNE");
+                }
+                else if (b == 1)
+                {
+                    newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(parentNode, null, blockedTile, null, "3wayWNS");
+                }
+                else
+                {
+                    newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(parentNode, blockedTile, null, null, "3wayWES");
+                }
+            }
+            else // if (childDirection == "S")
+            {
+                if (b == 0)
+                {
+                    newNode = Instantiate(tilePrefabs[7], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(null, parentNode, blockedTile, null, "3wayWNE");
+                }
+                else if (b == 1)
+                {
+                    newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(null, parentNode, blockedTile, null, "3wayWNS");
+                }
+                else
+                {
+                    newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
+                    TileScript newTileScript = newNode.GetComponent<TileScript>();
+                    newTileScript.CreateNode(blockedTile, parentNode, null, null, "3wayNES");
                 }
             }
         }
@@ -458,6 +524,142 @@ public class MapGenerationScript : MonoBehaviour
             }
         }
         return newNode; 
+    }
+
+    public void GenerateLoop(GameObject endNode)
+    {
+        TileScript endTileScript = endNode.GetComponent<TileScript>(); // 3-6
+        int i = 0; 
+        if (endTileScript.GetEast() == null)
+        {
+            i = 3; // Create cornWN
+        }
+        else if (endTileScript.GetNorth() == null)
+        {
+            i = 4; // create cornWS
+        }
+        else if (endTileScript.GetWest() == null)
+        {
+            i = 5; // create cornES
+        }
+        else // if (endTileScript.GetSouth() == null)
+        {
+            i = 6; // create cornNE
+        }
+        CreateLoop(endNode, i, endNode); 
+    }
+
+    public void CreateLoop(GameObject lastNode, int i, GameObject endNode)
+    {
+        GameObject newNode = lastNode; // This is just to initialize it. 
+        TileScript lastTileScript = lastNode.GetComponent<TileScript>();
+        TileScript endTileScript = newNode.GetComponent<TileScript>();
+        if (i == 3)
+        {
+            Component hitCollider = CollisionCheck("E"); 
+            if (hitCollider != null)
+            {
+                if (hitCollider.gameObject == endNode)
+                {
+                    endTileScript.SetWest(lastNode); 
+                    return;
+                }
+                else
+                {
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "E"); 
+                    lastTileScript.SetEast(newNode);
+                    return;
+                }
+            }
+            else
+            {
+                newNode = Instantiate(tilePrefabs[3], new Vector3(lastNode.transform.position.x + tileSizeX, lastNode.transform.position.y, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
+                TileScript newTileScript = newNode.GetComponent<TileScript>();
+                newTileScript.CreateNode(lastNode, null, blockedTile, blockedTile, "cornWN");
+                lastTileScript.SetEast(newNode); 
+            }
+        }
+        else if (i == 4)
+        {
+            Component hitCollider = CollisionCheck("N");
+            if (hitCollider != null)
+            {
+                if (hitCollider.gameObject == endNode)
+                {
+                    endTileScript.SetSouth(lastNode);
+                    return;
+                }
+                else
+                {
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "N");
+                    lastTileScript.SetNorth(newNode);
+                    return;
+                }
+            }
+            else
+            {
+                newNode = Instantiate(tilePrefabs[4], new Vector3(lastNode.transform.position.x, lastNode.transform.position.y - tileSizeY, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
+                TileScript newTileScript = newNode.GetComponent<TileScript>();
+                newTileScript.CreateNode(null, blockedTile, blockedTile, lastNode, "cornWS");
+                lastTileScript.SetNorth(newNode);
+            }
+        }
+        else if (i == 5)
+        {
+            Component hitCollider = CollisionCheck("W");
+            if (hitCollider != null)
+            {
+                if (hitCollider.gameObject == endNode)
+                {
+                    endTileScript.SetEast(lastNode);
+                    return;
+                }
+                else
+                {
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "W");
+                    lastTileScript.SetWest(newNode);
+                    return;
+                }
+            }
+            else
+            {
+                newNode = Instantiate(tilePrefabs[5], new Vector3(lastNode.transform.position.x - tileSizeX, lastNode.transform.position.y, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
+                TileScript newTileScript = newNode.GetComponent<TileScript>();
+                newTileScript.CreateNode(blockedTile, blockedTile, null, lastNode, "cornES");
+                lastTileScript.SetWest(newNode);
+            }
+        }
+        else // if (i == 6)
+        {
+            Component hitCollider = CollisionCheck("S");
+            if (hitCollider != null)
+            {
+                if (hitCollider.gameObject == endNode)
+                {
+                    endTileScript.SetNorth(lastNode);
+                    return;
+                }
+                else
+                {
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "S");
+                    lastTileScript.SetSouth(newNode);
+                    return;
+                }
+            }
+            else
+            {
+                newNode = Instantiate(tilePrefabs[5], new Vector3(lastNode.transform.position.x - tileSizeX, lastNode.transform.position.y, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
+                TileScript newTileScript = newNode.GetComponent<TileScript>();
+                newTileScript.CreateNode(blockedTile, lastNode, null, blockedTile, "cornNE");
+                lastTileScript.SetWest(newNode);
+            }
+        }
+        i++;
+        if (i == 7)
+        {
+            i = 3; 
+        }
+        CreateLoop(newNode, i, endNode); 
     }
 
 

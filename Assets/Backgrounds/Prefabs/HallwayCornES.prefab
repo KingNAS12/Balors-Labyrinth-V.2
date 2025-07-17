@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 3957898567853563184}
   - component: {fileID: 7798755974253331521}
   m_Layer: 6
-  m_Name: HallwayES
+  m_Name: HallwayCornES
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -463,3 +463,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676ea0322f68cb141924fa8cbf0630e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkedTiles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  tileName: 
+  isChecked: 0
+  blockedTile: {fileID: 9125868199974734399, guid: 0ec5d1fcd3a004347b7a43c9011695d9, type: 3}

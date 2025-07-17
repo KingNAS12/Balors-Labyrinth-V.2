@@ -131,6 +131,7 @@ MonoBehaviour:
   swordPrefab: {fileID: 2435579912794752617, guid: d5e4ac5b745f3894b9b20c4673dd4f85, type: 3}
   swordObject: {fileID: 0}
   knightAnimator: {fileID: 2049051636935793126}
+  offset: {x: 0.35, y: 0.2}
   isSpawned: 0
 --- !u!1 &6772412227380397325
 GameObject:
