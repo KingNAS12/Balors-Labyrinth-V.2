@@ -135,7 +135,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.8, y: 4.8}
+  m_Size: {x: 4.5, y: 4.5}
   m_EdgeRadius: 0
 --- !u!114 &-3140699112225018412
 MonoBehaviour:
@@ -157,6 +157,8 @@ MonoBehaviour:
   tileName: 
   isChecked: 0
   blockedTile: {fileID: 9125868199974734399, guid: 0ec5d1fcd3a004347b7a43c9011695d9, type: 3}
+  isLooped: 0
+  creation: 0
 --- !u!1 &3278487605669509561
 GameObject:
   m_ObjectHideFlags: 0

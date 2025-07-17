@@ -11,8 +11,10 @@ public class TileScript : MonoBehaviour
     public string tileName; 
     public bool isChecked;
     public GameObject blockedTile;
+    public int isLooped;
+    public int creation; 
 
-    public void CreateNode(GameObject west, GameObject north, GameObject east, GameObject south, string name)
+    public void CreateNode(GameObject west, GameObject north, GameObject east, GameObject south, string name, int loopy, int create)
     {
         linkedTiles[0] = west;
         linkedTiles[1] = north;
@@ -20,6 +22,13 @@ public class TileScript : MonoBehaviour
         linkedTiles[3] = south;
         tileName = name; 
         isChecked = false;
+        isLooped = loopy;
+        creation = create;
+    }
+
+    public void loop()
+    {
+        isLooped = 3; 
     }
 
     public string GetLinkTypes()

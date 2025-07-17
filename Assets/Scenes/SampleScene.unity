@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 306574571}
   - component: {fileID: 306574573}
   - component: {fileID: 306574572}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: V1Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 630359657}
   - component: {fileID: 630359659}
   - component: {fileID: 630359658}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: H1spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,11 +328,11 @@ PrefabInstance:
       objectReference: {fileID: 9125868199974734399, guid: 0ec5d1fcd3a004347b7a43c9011695d9, type: 3}
     - target: {fileID: 2067221129247433710, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.039801
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2067221129247433710, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.8217543
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2067221129247433710, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -366,9 +366,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4312020699759377897, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3891496496429725919, guid: 4e0952dd43988e84abbd3ab5e6934cfc, type: 3}
     - target: {fileID: 6223616767711013120, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       propertyPath: m_Name
       value: OriginalTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210765498238296251, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
+      propertyPath: m_Size.x
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210765498238296251, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
+      propertyPath: m_Size.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210765498238296251, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
+      propertyPath: m_Offset.x
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210765498238296251, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
+      propertyPath: m_Offset.y
+      value: -2.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -376,7 +396,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6223616767711013120, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 916053229}
+      addedObject: {fileID: 916053234}
   m_SourcePrefab: {fileID: 100100000, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
 --- !u!1 &767389388
 GameObject:
@@ -387,7 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 767389389}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +441,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2067221129247433710, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
   m_PrefabInstance: {fileID: 739311549}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &916053229
+--- !u!114 &916053234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,7 +450,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 916053227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d77c219e1179e5848bd88c319c439c4e, type: 3}
+  m_Script: {fileID: 11500000, guid: f87e069af998f474380c80be5635e640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blockedTile: {fileID: 9125868199974734399, guid: 0ec5d1fcd3a004347b7a43c9011695d9, type: 3}
@@ -447,18 +467,14 @@ MonoBehaviour:
   - {fileID: 3725259799441960073, guid: e1c71c60d3dbe1245954204772b65730, type: 3}
   - {fileID: 6540841139946562758, guid: 55612f4743835c444851e1e08170d24c, type: 3}
   - {fileID: 4161687309357547686, guid: 649c4f9aaa1f0aa4eb5a07612f37ae27, type: 3}
-  hallwayBody: {fileID: 916053231}
+  origin: {fileID: 916053227}
   bodyLayer:
     serializedVersion: 2
     m_Bits: 64
   tileSizeX: 24
   tileSizeY: 24
   stackSize: 0
---- !u!61 &916053231 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 7210765498238296251, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
-  m_PrefabInstance: {fileID: 739311549}
-  m_PrefabAsset: {fileID: 0}
+  created: 0
 --- !u!1 &1065225850
 GameObject:
   m_ObjectHideFlags: 0
