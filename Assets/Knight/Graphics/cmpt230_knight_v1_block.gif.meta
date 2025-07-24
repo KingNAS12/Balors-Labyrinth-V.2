@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cmpt230_knight_v1_block_0: -8602795400368322226
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

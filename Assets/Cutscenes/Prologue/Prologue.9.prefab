@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7057695570691192837
+--- !u!1001 &5527374909838428105
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1715588770871880679, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.82
+      value: -5.48
       objectReference: {fileID: 0}
     - target: {fileID: 1715588770871880679, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.24
+      value: -12.27
       objectReference: {fileID: 0}
     - target: {fileID: 1715588770871880679, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -50,12 +50,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2477849041928040852, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
       propertyPath: m_Name
-      value: Prologue.8 Variant
+      value: Prologue.9
       objectReference: {fileID: 0}
     - target: {fileID: 9122861783361339682, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2896820212702206167, guid: c50dc3812d838f24bb6fa077a0b9f354, type: 3}
+      objectReference: {fileID: -8281366859788371364, guid: 60db2cc7816786f4aacaf27cfd074522, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

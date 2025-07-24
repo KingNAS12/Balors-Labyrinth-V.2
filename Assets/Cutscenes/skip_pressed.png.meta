@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: f80bfb23fa1e132478d1b8bdc9e2ae73
+guid: 23f94dcb36cc19c4da3219b0dd4afdcb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6111697973850543965
-    second: Scroll.1.7_0
-  - first:
-      213: 7178286244956366317
-    second: Scroll.1.7_1
+      213: -6551785004305168324
+    second: cmpt230_ingame_skip_pressed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -103,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Scroll.1.7_0
+      name: cmpt230_ingame_skip_pressed_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1187
-        height: 287
+        width: 13
+        height: 12
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3a8e92ee213ee2ba0800000000000000
-      internalID: -6111697973850543965
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Scroll.1.7_1
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 11
-        width: 859
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: de562bebe456e9360800000000000000
-      internalID: 7178286244956366317
+      spriteID: c38c8ad50426315a0800000000000000
+      internalID: -6551785004305168324
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bfac4dc48bccc0844ae89d82648a31a3
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Scroll.1.7_0: -6111697973850543965
-      Scroll.1.7_1: 7178286244956366317
+      cmpt230_ingame_skip_pressed_0: -6551785004305168324
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cmpt230_sluagh_v1_0: 4811377365377015700
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

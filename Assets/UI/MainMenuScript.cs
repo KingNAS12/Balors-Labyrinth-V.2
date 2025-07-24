@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; 
 
-public class SceneController : MonoBehaviour
+public class MainMenuScript : MonoBehaviour
 {
     public AudioSource musicAudio;
     public AudioClip mainTheme, dungeonTheme;

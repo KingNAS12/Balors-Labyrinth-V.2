@@ -1,6 +1,5 @@
 using System.Drawing;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static Unity.Collections.AllocatorManager;
 using UnityEngine.UIElements;
@@ -10,84 +9,108 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class MapGenerationTest : MonoBehaviour
 {
-    public GameObject blockedTile; // Used like a pointer to Null, but not Null
+    public GameObject blockedTile; // Used like a pointer to Null, but not Null. Shows that hallway is blocked. 
     public GameObject[] tilePrefabs = new GameObject[12]; // Contains prefabs of Hallway GameObject. 0 = hor1, 1 = hor2, 2 = vert, 3 = cornWN, 4 = cornWS, 5 = cornES, 6 = cornNE, 7 = 3wayWNE, 8 = 3wayWNS, 9 = 3wayWES, 10 = 3wayNES, 11 = 4way; 
     public GameObject origin;
     public LayerMask bodyLayer;
     public float tileSizeX = 24;
     public float tileSizeY = 24;
     public int stackSize = 0;
+    public int stackLimit = 500;
     public int created = 0; 
 
     void Start()
     {
         origin = transform.gameObject;
         TileScript originTileScript = transform.GetComponent<TileScript>();
-        originTileScript.CreateNode(null, null, null, null, "4way", 0, created);
+        originTileScript.CreateNode(null, null, null, blockedTile, "3wayWNE", 0, created);
         //GenerateLoop(origin);
-        GenerationRecursion(origin);
+        GenerationRecursion(origin, 0);
     }
 
-    public GameObject GenerationRecursion(GameObject recursingNode)
+    public void GenerationRecursion(GameObject recursingNode, int i)
     {
-        if (stackSize >= 100)
+        // Check if the recursing node has any empty links. If yes, generate a new tile there and then recurse on that new node before checking the next link. 
+        // Stop recursing once all links are not null. 
+        print(i + " " + recursingNode); 
+        TileScript recursingTileScript = recursingNode.GetComponent<TileScript>();
+        bool newWest = false;
+        bool newNorth = false;
+        bool newEast = false;
+        bool newSouth = false;
+        if (i <= 10)
         {
-            //GenerateLoop(recursingNode);
-            stackSize--; 
-            return null;
+            i++;
+            if (recursingTileScript.GetWest() == null)
+            {
+                GameObject newNode = Generate(recursingNode, "W", i);
+                newWest = true; 
+            }
+            if (recursingTileScript.GetNorth() == null)
+            {
+                GameObject newNode = Generate(recursingNode, "N", i);
+                newNorth = true; 
+            }
+            if (recursingTileScript.GetEast() == null)
+            {
+                GameObject newNode = Generate(recursingNode, "E", i);
+                newEast = true; 
+            }
+            if (recursingTileScript.GetSouth() == null)
+            {
+                GameObject newNode = Generate(recursingNode, "S", i);
+                newSouth = true; 
+            }
+            if (newWest)
+            {
+                GenerationRecursion(recursingTileScript.GetWest(), i);
+            }
+            if (newNorth)
+            {
+                GenerationRecursion(recursingTileScript.GetNorth(), i);
+            }
+            if (newEast)
+            {
+                GenerationRecursion(recursingTileScript.GetEast(), i);
+            }
+            if (newSouth)
+            {
+                GenerationRecursion(recursingTileScript.GetSouth(), i);
+            }
+
         }
         else
         {
-            stackSize++; 
+            i--; 
+            if (recursingTileScript.GetWest() == null)
+            {
+                recursingTileScript.SetWest(blockedTile); 
+            }
+            if (recursingTileScript.GetNorth() == null)
+            {
+                recursingTileScript.SetNorth(blockedTile);
+            }
+            if (recursingTileScript.GetEast() == null)
+            {
+                recursingTileScript.SetEast(blockedTile); 
+            }
+            if (recursingTileScript.GetSouth() == null)
+            {
+                recursingTileScript.SetSouth(blockedTile);
+            }
         }
-        // Check if the recursing node has any empty links. If yes, generate a new tile there and then recurse on that new node before checking the next link. 
-        // Stop recursing once all links are not null. 
-        TileScript recursingTileScript = recursingNode.GetComponent<TileScript>();
-        if (recursingTileScript.GetWest() == null)
-        {
-            print(recursingNode + " W1 " + recursingTileScript.GetWest()); 
-            GameObject newNode = Generate(recursingNode, "W");
-            newNode = GenerationRecursion(newNode);
-            recursingTileScript.SetWest(newNode);
-            print(recursingNode + " W2 " + recursingTileScript.GetWest());
-        }
-        if (recursingTileScript.GetNorth() == null)
-        {
-            print(recursingNode + " N1 " + recursingTileScript.GetNorth());
-            GameObject newNode = Generate(recursingNode, "N");
-            newNode = GenerationRecursion(newNode);
-            recursingTileScript.SetNorth(newNode);
-            print(recursingNode + " N2 " + recursingTileScript.GetNorth());
-        }
-        if (recursingTileScript.GetEast() == null)
-        {
-            print(recursingNode + " E1 " + recursingTileScript.GetEast());
-            GameObject newNode = Generate(recursingNode, "E");
-            newNode = GenerationRecursion(newNode);
-            recursingTileScript.SetEast(newNode);
-            print(recursingNode + " E2 " + recursingTileScript.GetEast());
-        }
-        if (recursingTileScript.GetSouth() == null)
-        {
-            print(recursingNode + " S1 " + recursingTileScript.GetSouth());
-            GameObject newNode = Generate(recursingNode, "S");
-            newNode = GenerationRecursion(newNode);
-            recursingTileScript.SetSouth(newNode);
-            print(recursingNode + " S2 " + recursingTileScript.GetSouth());
-        }
-        return recursingNode;
     }
 
-    public GameObject Generate(GameObject parentNode, string childDirection)
+    public GameObject Generate(GameObject parentNode, string childDirection, int i)
     {
         Component hitCollider = CollisionCheck(parentNode, childDirection); // First check if you are trying to create a new node where another node already exists. 
         if (hitCollider != null)
         {
-            return CreateIntersection(hitCollider.gameObject, parentNode, childDirection); // If yes, then convert that tile into an intersection. 
+            return CreateIntersection(hitCollider.gameObject, parentNode, childDirection, i); // If yes, then convert that tile into an intersection. 
         }
         else
         {
-            return CreateNewTile(parentNode, childDirection); // If no, then create a new random tile. 
+            return CreateNewTile(parentNode, childDirection, i); // If no, then create a new random tile. 
         }
     }
 
@@ -111,35 +134,33 @@ public class MapGenerationTest : MonoBehaviour
         {
             hit = Physics2D.BoxCast(new Vector2(hallwayBody.bounds.center.x, (hallwayBody.bounds.center.y - tileSizeY)), hallwayBody.size, 0, Vector2.left, 0, bodyLayer);
         }
-        print(hit);
-        print(hit.collider); 
         return (hit.collider);
     }
 
-    public GameObject CreateIntersection(GameObject hitNode, GameObject parentNode, string childDirection)
+    public GameObject CreateIntersection(GameObject hitNode, GameObject parentNode, string childDirection, int i)
     {
         /* <parentNode> is the object that is trying to create a new child/tile at the same position as <hitNode>. 
         <childDirection> is the direction of <hitNode> relative to <parentNode>.
         So convert <hitNode> into a new intersection. */
         if (childDirection == "W")                                 // hitNode parentNode
         {
-            return WestIntersectChecks(hitNode, parentNode);
+            return WestIntersectChecks(hitNode, parentNode, i);
         }
         else if (childDirection == "N")                            // hitNode
         {                                                          // parentNode
-            return NorthIntersectChecks(hitNode, parentNode);
+            return NorthIntersectChecks(hitNode, parentNode, i);
         }
         else if (childDirection == "E")                            // parentNode hitNode
         {
-            return EastIntersectChecks(hitNode, parentNode);
+            return EastIntersectChecks(hitNode, parentNode, i);
         }
         else // (childDirection == "S")                            // parentNode
         {                                                          // hitNode
-            return SouthIntersectChecks(hitNode, parentNode);
+            return SouthIntersectChecks(hitNode, parentNode, i);
         }
     }
 
-    public GameObject WestIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged)
+    public GameObject WestIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged, int i)
     {
         /* <nodeUnchanged> is the object that is trying to create a new child/tile at the same position as <nodeToConvert>. 
         <nodeToConvert> is the object that needs to be converted into an intersection. 
@@ -154,6 +175,7 @@ public class MapGenerationTest : MonoBehaviour
         if (convertingTileScript.GetEast() != blockedTile)
         {
             convertingTileScript.SetEast(nodeUnchanged);
+            unchangingTileScript.SetWest(nodeToConvert); 
             return newNode;
         }
         else
@@ -161,33 +183,43 @@ public class MapGenerationTest : MonoBehaviour
             if (convertTile == "vert")
             {
                 newNode = Instantiate(tilePrefabs[10], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, convertingTileScript.GetNorth(), nodeUnchanged, convertingTileScript.GetSouth(), "3wayNES", 1, created++);
+                newTileScript.CreateNode(blockedTile, convertingTileScript.GetNorth(), nodeUnchanged, convertingTileScript.GetSouth(), "3wayNES", 5, i);
             }
             else if (convertTile == "cornWN")
             {
                 newNode = Instantiate(tilePrefabs[7], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), nodeUnchanged, blockedTile, "3wayWNE", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), nodeUnchanged, blockedTile, "3wayWNE", 5, i);
             }
             else if (convertTile == "cornWS")
             {
                 newNode = Instantiate(tilePrefabs[9], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), blockedTile, nodeUnchanged, convertingTileScript.GetSouth(), "3wayWES", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), blockedTile, nodeUnchanged, convertingTileScript.GetSouth(), "3wayWES", 5, i);
             }
             else if (convertTile == "3wayWNS")
             {
                 newNode = Instantiate(tilePrefabs[11], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), nodeUnchanged, convertingTileScript.GetSouth(), "4way", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), nodeUnchanged, convertingTileScript.GetSouth(), "4way", 5, i);
             }
             Destroy(nodeToConvert);
+            unchangingTileScript.SetWest(newNode);
             return newNode;
         }
     }
 
-    public GameObject NorthIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged)
+    public GameObject NorthIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged, int i)
     {
         /* <nodeUnchanged> is the object that is trying to create a new child/tile at the same position as <nodeToConvert>. 
         <nodeToConvert> is the object that needs to be converted into an intersection. 
@@ -202,6 +234,7 @@ public class MapGenerationTest : MonoBehaviour
         if (convertingTileScript.GetSouth() != blockedTile)
         {
             convertingTileScript.SetSouth(nodeUnchanged);
+            unchangingTileScript.SetNorth(nodeToConvert);
             return newNode;
         }
         else
@@ -209,33 +242,43 @@ public class MapGenerationTest : MonoBehaviour
             if (convertTile == "hor")
             {
                 newNode = Instantiate(tilePrefabs[9], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), blockedTile, convertingTileScript.GetEast(), nodeUnchanged, "3wayWES", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), blockedTile, convertingTileScript.GetEast(), nodeUnchanged, "3wayWES", 5, i);
             }
             else if (convertTile == "cornWN")
             {
                 newNode = Instantiate(tilePrefabs[8], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), blockedTile, nodeUnchanged, "3wayWNS", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), blockedTile, nodeUnchanged, "3wayWNS", 5, i);
             }
             else if (convertTile == "cornNE")
             {
                 newNode = Instantiate(tilePrefabs[10], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, convertingTileScript.GetNorth(), convertingTileScript.GetEast(), nodeUnchanged, "3wayNES", 1, created++);
+                newTileScript.CreateNode(blockedTile, convertingTileScript.GetNorth(), convertingTileScript.GetEast(), nodeUnchanged, "3wayNES", 5, i);
             }
             else if (convertTile == "3wayWNE")
             {
                 newNode = Instantiate(tilePrefabs[11], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), convertingTileScript.GetEast(), nodeUnchanged, "4way", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), convertingTileScript.GetNorth(), convertingTileScript.GetEast(), nodeUnchanged, "4way", 5, i);
             }
             Destroy(nodeToConvert);
+            unchangingTileScript.SetNorth(newNode);
             return newNode;
         }
     }
 
-    public GameObject EastIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged)
+    public GameObject EastIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged, int i)
     {
         /* <nodeUnchanged> is the object that is trying to create a new child/tile at the same position as <nodeToConvert>. 
         <nodeToConvert> is the object that needs to be converted into an intersection. 
@@ -250,6 +293,7 @@ public class MapGenerationTest : MonoBehaviour
         if (convertingTileScript.GetWest() != blockedTile)
         {
             convertingTileScript.SetWest(nodeUnchanged);
+            unchangingTileScript.SetEast(nodeToConvert);
             return newNode;
         }
         else
@@ -257,33 +301,43 @@ public class MapGenerationTest : MonoBehaviour
             if (convertTile == "vert")
             {
                 newNode = Instantiate(tilePrefabs[8], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(nodeUnchanged, convertingTileScript.GetNorth(), blockedTile, convertingTileScript.GetSouth(), "3wayWNS", 1, created++);
+                newTileScript.CreateNode(nodeUnchanged, convertingTileScript.GetNorth(), blockedTile, convertingTileScript.GetSouth(), "3wayWNS", 5, i);
             }
             else if (convertTile == "cornES")
             {
                 newNode = Instantiate(tilePrefabs[9], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(nodeUnchanged, blockedTile, convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "3wayWES", 1, created++);
+                newTileScript.CreateNode(nodeUnchanged, blockedTile, convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "3wayWES", 5, i);
             }
             else if (convertTile == "cornNE")
             {
                 newNode = Instantiate(tilePrefabs[7], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(nodeUnchanged, convertingTileScript.GetNorth(), convertingTileScript.GetEast(), blockedTile, "3wayWNE", 1, created++);
+                newTileScript.CreateNode(nodeUnchanged, convertingTileScript.GetNorth(), convertingTileScript.GetEast(), blockedTile, "3wayWNE", 5, i);
             }
             else if (convertTile == "3wayNES")
             {
                 newNode = Instantiate(tilePrefabs[11], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetNorth().GetComponent<TileScript>().SetSouth(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(nodeUnchanged, convertingTileScript.GetNorth(), convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "4way", 1, created++);
+                newTileScript.CreateNode(nodeUnchanged, convertingTileScript.GetNorth(), convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "4way", 5, i);
             }
             Destroy(nodeToConvert);
+            unchangingTileScript.SetEast(newNode);
             return newNode;
         }
     }
 
-    public GameObject SouthIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged)
+    public GameObject SouthIntersectChecks(GameObject nodeToConvert, GameObject nodeUnchanged, int i)
     {
         /* <nodeUnchanged> is the object that is trying to create a new child/tile at the same position as <nodeToConvert>. 
         <nodeToConvert> is the object that needs to be converted into an intersection. 
@@ -298,6 +352,7 @@ public class MapGenerationTest : MonoBehaviour
         if (convertingTileScript.GetNorth() != blockedTile)
         {
             convertingTileScript.SetNorth(nodeUnchanged);
+            unchangingTileScript.SetSouth(nodeToConvert);
             return newNode;
         }
         else
@@ -305,33 +360,43 @@ public class MapGenerationTest : MonoBehaviour
             if (convertTile == "hor")
             {
                 newNode = Instantiate(tilePrefabs[7], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), nodeUnchanged, convertingTileScript.GetEast(), blockedTile, "3wayWNE", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), nodeUnchanged, convertingTileScript.GetEast(), blockedTile, "3wayWNE", 5, i);
             }
             else if (convertTile == "cornWS")
             {
                 newNode = Instantiate(tilePrefabs[8], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), nodeUnchanged, blockedTile, convertingTileScript.GetSouth(), "3wayWNS", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), nodeUnchanged, blockedTile, convertingTileScript.GetSouth(), "3wayWNS", 5, i);
             }
             else if (convertTile == "cornES")
             {
                 newNode = Instantiate(tilePrefabs[10], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, nodeUnchanged, convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "3wayNES", 1, created++);
+                newTileScript.CreateNode(blockedTile, nodeUnchanged, convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "3wayNES", 5, i);
             }
             else if (convertTile == "3wayWES")
             {
                 newNode = Instantiate(tilePrefabs[11], nodeToConvert.transform.position, Quaternion.identity, nodeToConvert.transform.parent);
+                convertingTileScript.GetWest().GetComponent<TileScript>().SetEast(newNode);
+                convertingTileScript.GetEast().GetComponent<TileScript>().SetWest(newNode);
+                convertingTileScript.GetSouth().GetComponent<TileScript>().SetNorth(newNode);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(convertingTileScript.GetWest(), nodeUnchanged, convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "4way", 1, created++);
+                newTileScript.CreateNode(convertingTileScript.GetWest(), nodeUnchanged, convertingTileScript.GetEast(), convertingTileScript.GetSouth(), "4way", 5, i);
             }
             Destroy(nodeToConvert);
+            unchangingTileScript.SetSouth(newNode);
             return newNode;
         }
     }
 
-    public GameObject CreateNewTile(GameObject parentNode, string childDirection)
+    public GameObject CreateNewTile(GameObject parentNode, string childDirection, int i)
     {
         bool careful = false;
         /*if (parentNode.transform.position.y == origin.transform.position.y && (childDirection == "W" || childDirection == "E"))
@@ -357,13 +422,13 @@ public class MapGenerationTest : MonoBehaviour
                 {
                     newNode = Instantiate(tilePrefabs[version], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, blockedTile, parentNode, blockedTile, "hor", 2, created++);
+                    newTileScript.CreateNode(null, blockedTile, parentNode, blockedTile, "hor", 2, i);
                 }
                 else // if (childDirection == "E")
                 {
                     newNode = Instantiate(tilePrefabs[version], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(parentNode, blockedTile, null, blockedTile, "hor", 2, created++);
+                    newTileScript.CreateNode(parentNode, blockedTile, null, blockedTile, "hor", 2, i);
                 }
             }
             else // if (childDirection == "N" || childDirection == "S")) 
@@ -378,13 +443,13 @@ public class MapGenerationTest : MonoBehaviour
                     {
                         newNode = Instantiate(tilePrefabs[2], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                         TileScript newTileScript = newNode.GetComponent<TileScript>();
-                        newTileScript.CreateNode(blockedTile, null, blockedTile, parentNode, "vert", 2, created++);
+                        newTileScript.CreateNode(blockedTile, null, blockedTile, parentNode, "vert", 2, i);
                     }
                     else // if (childDirection == "S")
                     {
                         newNode = Instantiate(tilePrefabs[2], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                         TileScript newTileScript = newNode.GetComponent<TileScript>();
-                        newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "vert", 2, created++);
+                        newTileScript.CreateNode(blockedTile, parentNode, blockedTile, null, "vert", 2, i);
                     }
                 }
             }
@@ -400,25 +465,25 @@ public class MapGenerationTest : MonoBehaviour
             {
                 newNode = Instantiate(tilePrefabs[4], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(parentNode, blockedTile, blockedTile, null, "cornWS", 2, created++);
+                newTileScript.CreateNode(parentNode, blockedTile, blockedTile, null, "cornWS", 2, i);
             }
             else if (childDirection == "N")
             {
                 newNode = Instantiate(tilePrefabs[4], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(null, blockedTile, blockedTile, parentNode, "cornWS", 2, created++);
+                newTileScript.CreateNode(null, blockedTile, blockedTile, parentNode, "cornWS", 2, i);
             }
             else if (childDirection == "W")
             {
                 newNode = Instantiate(tilePrefabs[5], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, blockedTile, parentNode, null, "cornES", 2, created++);
+                newTileScript.CreateNode(blockedTile, blockedTile, parentNode, null, "cornES", 2, i);
             }
             else // if (childDirection == "S")
             {
                 newNode = Instantiate(tilePrefabs[6], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, parentNode, null, blockedTile, "cornNE", 2, created++);
+                newTileScript.CreateNode(blockedTile, parentNode, null, blockedTile, "cornNE", 2, i);
             }
         }
         else if (53 <= a && a <= 65) // 13% chance to create a different corner. 
@@ -427,25 +492,25 @@ public class MapGenerationTest : MonoBehaviour
             {
                 newNode = Instantiate(tilePrefabs[3], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(parentNode, null, blockedTile, blockedTile, "cornWN", 2, created++);
+                newTileScript.CreateNode(parentNode, null, blockedTile, blockedTile, "cornWN", 2, i);
             }
             else if (childDirection == "S")
             {
                 newNode = Instantiate(tilePrefabs[3], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(null, parentNode, blockedTile, blockedTile, "cornWN", 2, created++);
+                newTileScript.CreateNode(null, parentNode, blockedTile, blockedTile, "cornWN", 2, i);
             }
             else if (childDirection == "W")
             {
                 newNode = Instantiate(tilePrefabs[6], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, null, parentNode, blockedTile, "cornNE", 2, created++);
+                newTileScript.CreateNode(blockedTile, null, parentNode, blockedTile, "cornNE", 2, i);
             }
             else // if (childDirection == "N")
             {
                 newNode = Instantiate(tilePrefabs[5], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(blockedTile, blockedTile, null, parentNode, "cornES", 2, created++);
+                newTileScript.CreateNode(blockedTile, blockedTile, null, parentNode, "cornES", 2, i);
             }
         }
         else if (a >= 90) // 10 % chance of creating a 4 way intersection. 
@@ -458,25 +523,25 @@ public class MapGenerationTest : MonoBehaviour
             {
                 newNode = Instantiate(tilePrefabs[11], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(null, null, parentNode, null, "4way", 2, created++);
+                newTileScript.CreateNode(null, null, parentNode, null, "4way", 2, i);
             }
             else if (childDirection == "N")
             {
                 newNode = Instantiate(tilePrefabs[11], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(null, null, null, parentNode, "4way", 2, created++);
+                newTileScript.CreateNode(null, null, null, parentNode, "4way", 2, i);
             }
             else if (childDirection == "E")
             {
                 newNode = Instantiate(tilePrefabs[11], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(parentNode, null, null, null, "4way", 2, created++);
+                newTileScript.CreateNode(parentNode, null, null, null, "4way", 2, i);
             }
             else // if (childDirection == "S")
             {
                 newNode = Instantiate(tilePrefabs[11], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
-                newTileScript.CreateNode(null, parentNode, null, null, "4way", 2, created++);
+                newTileScript.CreateNode(null, parentNode, null, null, "4way", 2, i);
             }
         }
         if (65 < a && a < 90) // 25% chance of 3 way intersection. 1/3 chance for direction. 
@@ -488,19 +553,19 @@ public class MapGenerationTest : MonoBehaviour
                 {
                     newNode = Instantiate(tilePrefabs[7], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, null, parentNode, blockedTile, "3wayWNE", 2, created++);
+                    newTileScript.CreateNode(null, null, parentNode, blockedTile, "3wayWNE", 2, i);
                 }
                 else if (b == 1)
                 {
                     newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, blockedTile, parentNode, null, "3wayWES", 2, created++);
+                    newTileScript.CreateNode(null, blockedTile, parentNode, null, "3wayWES", 2, i);
                 }
                 else
                 {
                     newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x - tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(blockedTile, null, parentNode, null, "3wayNES", 2, created++);
+                    newTileScript.CreateNode(blockedTile, null, parentNode, null, "3wayNES", 2, i);
                 }
             }
             else if (childDirection == "N")
@@ -509,19 +574,19 @@ public class MapGenerationTest : MonoBehaviour
                 {
                     newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, null, blockedTile, parentNode, "3wayWNS", 2, created++);
+                    newTileScript.CreateNode(null, null, blockedTile, parentNode, "3wayWNS", 2, i);
                 }
                 else if (b == 1)
                 {
                     newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, blockedTile, null, parentNode, "3wayWES", 2, created++);
+                    newTileScript.CreateNode(null, blockedTile, null, parentNode, "3wayWES", 2, i);
                 }
                 else
                 {
                     newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y + tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(blockedTile, null, null, parentNode, "3wayNES", 2, created++);
+                    newTileScript.CreateNode(blockedTile, null, null, parentNode, "3wayNES", 2, i);
                 }
             }
             else if (childDirection == "E")
@@ -530,19 +595,19 @@ public class MapGenerationTest : MonoBehaviour
                 {
                     newNode = Instantiate(tilePrefabs[7], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(parentNode, null, null, blockedTile, "3wayWNE", 2, created++);
+                    newTileScript.CreateNode(parentNode, null, null, blockedTile, "3wayWNE", 2, i);
                 }
                 else if (b == 1)
                 {
                     newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(parentNode, null, blockedTile, null, "3wayWNS", 2, created++);
+                    newTileScript.CreateNode(parentNode, null, blockedTile, null, "3wayWNS", 2, i);
                 }
                 else
                 {
                     newNode = Instantiate(tilePrefabs[9], new Vector3(parentNode.transform.position.x + tileSizeX, parentNode.transform.position.y, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(parentNode, blockedTile, null, null, "3wayWES", 2, created++);
+                    newTileScript.CreateNode(parentNode, blockedTile, null, null, "3wayWES", 2, i);
                 }
             }
             else // if (childDirection == "S")
@@ -551,21 +616,38 @@ public class MapGenerationTest : MonoBehaviour
                 {
                     newNode = Instantiate(tilePrefabs[7], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, parentNode, null, blockedTile, "3wayWNE", 2, created++);
+                    newTileScript.CreateNode(null, parentNode, null, blockedTile, "3wayWNE", 2, i);
                 }
                 else if (b == 1)
                 {
                     newNode = Instantiate(tilePrefabs[8], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(null, parentNode, blockedTile, null, "3wayWNS", 2, created++);
+                    newTileScript.CreateNode(null, parentNode, blockedTile, null, "3wayWNS", 2, i);
                 }
                 else
                 {
                     newNode = Instantiate(tilePrefabs[10], new Vector3(parentNode.transform.position.x, parentNode.transform.position.y - tileSizeY, parentNode.transform.position.z), Quaternion.identity, parentNode.transform.parent);
                     TileScript newTileScript = newNode.GetComponent<TileScript>();
-                    newTileScript.CreateNode(blockedTile, parentNode, null, null, "3wayNES", 2, created++);
+                    newTileScript.CreateNode(blockedTile, parentNode, null, null, "3wayNES", 2, i);
                 }
             }
+        }
+        TileScript parentTileScript = parentNode.GetComponent<TileScript>(); 
+        if (childDirection == "W")
+        {
+            parentTileScript.SetWest(newNode);
+        }
+        else if (childDirection == "N")
+        {
+            parentTileScript.SetNorth(newNode);
+        }
+        else if (childDirection == "E")
+        {
+            parentTileScript.SetEast(newNode);
+        }
+        else if (childDirection == "S")
+        {
+            parentTileScript.SetSouth(newNode);
         }
         return newNode;
     }
@@ -573,36 +655,37 @@ public class MapGenerationTest : MonoBehaviour
     public void GenerateLoop(GameObject endNode)
     {
         TileScript endTileScript = endNode.GetComponent<TileScript>();
-        int i = 0;
-        /*if (endTileScript.GetWest() == null)
+        if (endTileScript.GetWest() == null)
         {
-            CreateLoop(endNode, 5, endNode);
+            endNode = CreateLoop(endNode, 5, endNode);
         }
+        endTileScript = endNode.GetComponent<TileScript>();
         if (endTileScript.GetNorth() == null)
         {
-            CreateLoop(endNode, 4, endNode);
-        }*/
+            endNode = CreateLoop(endNode, 4, endNode);
+        }
+        endTileScript = endNode.GetComponent<TileScript>();
         if (endTileScript.GetEast() == null)
         {
-            CreateLoop(endNode, 3, endNode);
-        }/*
+            endNode = CreateLoop(endNode, 3, endNode);
+        }
+        endTileScript = endNode.GetComponent<TileScript>();
         if (endTileScript.GetSouth() == null)
         {
-            CreateLoop(endNode, 6, endNode);
-        }*/
+            endNode = CreateLoop(endNode, 6, endNode);
+        }
     }
 
-    public void CreateLoop(GameObject lastNode, int i, GameObject endNode)
+    public GameObject CreateLoop(GameObject lastNode, int i, GameObject endNode)
     {
-        print(i + " " + lastNode);
         GameObject newNode = lastNode; // This is just to initialize it. <newNode> will not stay <lastNode>. 
         TileScript lastTileScript = lastNode.GetComponent<TileScript>();
-        TileScript endTileScript = newNode.GetComponent<TileScript>();
+        TileScript endTileScript = endNode.GetComponent<TileScript>();
         if (i == 3)
         {
             Component hitCollider = CollisionCheck(lastNode, "E");
             if (hitCollider != null)
-            {
+            {/*
                 if (hitCollider.gameObject == endNode)
                 {
                     print("endNode"); 
@@ -612,18 +695,16 @@ public class MapGenerationTest : MonoBehaviour
                     endTileScript.loop();
                 }
                 else
-                {
-                    print("intersection"); 
-                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "E");
+                {*/
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "E", 5);
                     lastTileScript.SetEast(newNode);
                     lastTileScript.loop();
                     newNode.GetComponent<TileScript>().loop();
-                }
-                return;
+                //}
+                return newNode;
             }
             else
             {
-                print("new");
                 newNode = Instantiate(tilePrefabs[3], new Vector3(lastNode.transform.position.x + tileSizeX, lastNode.transform.position.y, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(lastNode, null, blockedTile, blockedTile, "cornWN", 3, created++);
@@ -637,7 +718,7 @@ public class MapGenerationTest : MonoBehaviour
             Component hitCollider = CollisionCheck(lastNode, "N");
             if (hitCollider != null)
             {
-                if (hitCollider.gameObject == endNode)
+                /*if (hitCollider.gameObject == endNode)
                 {
                     print("endNode");
                     endTileScript.SetSouth(lastNode);
@@ -646,18 +727,16 @@ public class MapGenerationTest : MonoBehaviour
                     endTileScript.loop();
                 }
                 else
-                {
-                    print("intersection");
-                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "N");
+                {*/
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "N", 5);
                     lastTileScript.SetNorth(newNode);
                     lastTileScript.loop();
                     newNode.GetComponent<TileScript>().loop();
-                }
-                return;
+                //}
+                return newNode;
             }
             else
             {
-                print("new");
                 newNode = Instantiate(tilePrefabs[4], new Vector3(lastNode.transform.position.x, lastNode.transform.position.y + tileSizeY, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(null, blockedTile, blockedTile, lastNode, "cornWS", 3, created++);
@@ -670,7 +749,7 @@ public class MapGenerationTest : MonoBehaviour
         {
             Component hitCollider = CollisionCheck(lastNode, "W");
             if (hitCollider != null)
-            {
+            {/*
                 if (hitCollider.gameObject == endNode)
                 {
                     print("endNode");
@@ -680,18 +759,16 @@ public class MapGenerationTest : MonoBehaviour
                     endTileScript.loop();
                 }
                 else
-                {
-                    print("intersection");
-                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "W");
+                {*/
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "W", 5);
                     lastTileScript.SetWest(newNode);
                     lastTileScript.loop();
                     newNode.GetComponent<TileScript>().loop();
-                }
-                return;
+                //}
+                return newNode;
             }
             else
             {
-                print("new");
                 newNode = Instantiate(tilePrefabs[5], new Vector3(lastNode.transform.position.x - tileSizeX, lastNode.transform.position.y, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(blockedTile, blockedTile, lastNode, null, "cornES", 3, created++);
@@ -704,7 +781,7 @@ public class MapGenerationTest : MonoBehaviour
         {
             Component hitCollider = CollisionCheck(lastNode, "S");
             if (hitCollider != null)
-            {
+            {/*
                 if (hitCollider.gameObject == endNode)
                 {
                     print("endNode");
@@ -714,22 +791,21 @@ public class MapGenerationTest : MonoBehaviour
                     endTileScript.loop();
                 }
                 else
-                {
+                {*/
                     print("intersection");
-                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "S");
+                    newNode = CreateIntersection(hitCollider.gameObject, lastNode, "S", 5);
                     lastTileScript.SetSouth(newNode);
                     lastTileScript.loop();
                     newNode.GetComponent<TileScript>().loop();
-                }
-                return;
+                //}
+                return newNode;
             }
             else
             {
-                print("new");
-                newNode = Instantiate(tilePrefabs[5], new Vector3(lastNode.transform.position.x, lastNode.transform.position.y - tileSizeY, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
+                newNode = Instantiate(tilePrefabs[6], new Vector3(lastNode.transform.position.x, lastNode.transform.position.y - tileSizeY, lastNode.transform.position.z), Quaternion.identity, lastNode.transform.parent);
                 TileScript newTileScript = newNode.GetComponent<TileScript>();
                 newTileScript.CreateNode(blockedTile, lastNode, null, blockedTile, "cornNE", 3, created++);
-                lastTileScript.SetWest(newNode);
+                lastTileScript.SetSouth(newNode);
                 lastTileScript.loop();
                 newTileScript.loop();
             }
@@ -739,8 +815,8 @@ public class MapGenerationTest : MonoBehaviour
         {
             i = 3;
         }
-        CreateLoop(newNode, i, endNode);
-        return;
+        endNode = CreateLoop(newNode, i, endNode);
+        return endNode;
     }
 
 

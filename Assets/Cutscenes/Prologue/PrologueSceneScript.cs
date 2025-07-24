@@ -1,4 +1,6 @@
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PrologueSceneScript : MonoBehaviour
@@ -12,9 +14,13 @@ public class PrologueSceneScript : MonoBehaviour
     public Vector2 position; 
     public LayerMask playerLayer;
     public Camera camera;
-    public float xOffset;
-    public float yOffset;
-    public KnightMoveScript knightScript; 
+    public float xOffset = 0.5f;
+    public float yOffset = 0.5f;
+    public KnightMoveScript knightScript;
+    public GameObject skipButtonPrefab;
+    public float skipOffsetX = 1.5f;
+    public float skipOffsetY = 1.5f;
+    public bool isPaused = false; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,8 +29,9 @@ public class PrologueSceneScript : MonoBehaviour
         cutsceneAudio.volume = 0.5f;
         backgroundMusic.loop = false;
         backgroundMusic.volume = 0.5f;
-        backgroundMusic.clip = dungeonTheme; 
-        backgroundMusic.Play();
+        backgroundMusic.clip = dungeonTheme;
+        backgroundMusic.loop = true;  
+        backgroundMusic.Play(); 
         camera = Camera.main;
         knightScript = GameObject.Find("Knight").GetComponent<KnightMoveScript>(); 
     }
@@ -32,7 +39,7 @@ public class PrologueSceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cutsceneAudio.isPlaying == false)
+        if (cutsceneAudio.isPlaying == false && !isPaused)
         {
             if (scene == 1)
             {
@@ -75,7 +82,7 @@ public class PrologueSceneScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (scene == 0 && collision.gameObject.layer == 3)
+        if (collision.gameObject.layer == 3 && scene == 0)
         {
             Prologue1();
         }
@@ -97,6 +104,7 @@ public class PrologueSceneScript : MonoBehaviour
         cutsceneAudio.clip = dialogue1;
         backgroundMusic.volume = 0.3f;
         cutsceneAudio.Play();
+        Instantiate(skipButtonPrefab, new Vector2(position.x*skipOffsetX, position.y*skipOffsetY), Quaternion.identity);
     }
 
     public void Prologue2()
@@ -175,5 +183,10 @@ public class PrologueSceneScript : MonoBehaviour
     {
         Destroy(currentScroll);
         knightScript.resumeMovement();
+    }
+
+    public void Pause()
+    {
+        isPaused = !isPaused; 
     }
 }

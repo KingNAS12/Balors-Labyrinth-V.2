@@ -284,7 +284,14 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cmpt230_waterwalk_sprite_sheet_0: -5094887545389571729
+      cmpt230_waterwalk_sprite_sheet_1: -7167597218459784444
+      cmpt230_waterwalk_sprite_sheet_2: 6810041243587934527
+      cmpt230_waterwalk_sprite_sheet_3: -759682362126285171
+      cmpt230_waterwalk_sprite_sheet_4: -1572312615326485407
+      cmpt230_waterwalk_sprite_sheet_5: 4589626462801425065
+      cmpt230_waterwalk_sprite_sheet_6: -6249531794116844187
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -369,7 +369,7 @@ PrefabInstance:
     - target: {fileID: 4312020699759377897, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 3891496496429725919, guid: 4e0952dd43988e84abbd3ab5e6934cfc, type: 3}
+      objectReference: {fileID: -3379640763503194761, guid: 63e1f11bed3dff343be3665271461bf8, type: 3}
     - target: {fileID: 6223616767711013120, guid: 2909b4344794d71408c352520a20ba3f, type: 3}
       propertyPath: m_Name
       value: OriginalTile
@@ -474,6 +474,7 @@ MonoBehaviour:
   tileSizeX: 24
   tileSizeY: 24
   stackSize: 0
+  stackLimit: 250
   created: 0
 --- !u!1 &1065225850
 GameObject:
