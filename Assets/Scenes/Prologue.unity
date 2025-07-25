@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 1407827352}
   - component: {fileID: 1407827353}
   - component: {fileID: 1407827354}
+  - component: {fileID: 1407827355}
   m_Layer: 0
   m_Name: PauseButton
   m_TagString: Untagged
@@ -415,19 +416,23 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1984970130}
-        m_TargetAssemblyTypeName: PrologueSceneScript, Assembly-CSharp
-        m_MethodName: Pause
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &1407827355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407827351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4398d327e8437ca41aed034b309e6c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  xOffset: -0.5
+  yOffset: 0.5
+  KnightMoveScript: {fileID: 0}
 --- !u!1001 &1449758855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -727,17 +732,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1984970130 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3795303218824946976, guid: c620d5ce9d16e3a4b9486c723d1d2ae9, type: 3}
-  m_PrefabInstance: {fileID: 2922354635646234732}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20ea5b3ef9af6ab4ea3a5aa48f48646c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2077097681
 PrefabInstance:
   m_ObjectHideFlags: 0
