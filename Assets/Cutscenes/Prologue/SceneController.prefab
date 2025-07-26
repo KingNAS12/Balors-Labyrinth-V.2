@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a20f0dcfd1679c488d99134113191ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLayer: 3
 --- !u!1 &2979160982544017999
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,9 +123,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2937997378239769522}
+  - {fileID: 7277652078325656127}
   - {fileID: 1841894882739211188}
   - {fileID: 5802979617889490430}
-  - {fileID: 7277652078325656127}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9136755846000489868

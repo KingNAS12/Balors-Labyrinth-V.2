@@ -404,9 +404,7 @@ MonoBehaviour:
   skipButtonPrefab: {fileID: 7288120699383175478, guid: f8752031deb3a784f864e45c2a1f906d, type: 3}
   skipOffsetX: 1.95
   skipOffsetY: 1.3
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  playerLayer: 3
   camera: {fileID: 0}
   sceneController: {fileID: 0}
   isPaused: 0

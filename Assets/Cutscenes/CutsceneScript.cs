@@ -40,7 +40,7 @@ public class CutsceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cutsceneAudio.isPlaying == false && !isPaused)
+        if (cutsceneAudio.isPlaying == false && dialogueLine != -1 && !isPaused)
         {
             dialogueLine++;
             if (scrolls[dialogueLine] == null)
@@ -74,18 +74,18 @@ public class CutsceneScript : MonoBehaviour
         float bottomEdge = camPos.y - vertExtent;
         //float topEdge = camPos.y + vertExtent;
         position = new Vector2(leftEdge + scrollOffsetX, bottomEdge + scrollOffsetY); 
-        currentScroll = Instantiate(scrolls[0], position, Quaternion.identity, transform);
+        currentScroll = Instantiate(scrolls[0], position, Quaternion.identity);
         dialogueLine = 0; 
         cutsceneAudio.clip = dialogues[0];
         backgroundMusic.volume = 0.3f;
         cutsceneAudio.Play();
-        Instantiate(skipButtonPrefab, new Vector2(rightEdge + skipOffsetX, bottomEdge + skipOffsetY), Quaternion.identity, transform);
+        Instantiate(skipButtonPrefab, new Vector2(rightEdge + skipOffsetX, bottomEdge + skipOffsetY), Quaternion.identity);
     }
 
     public void NextScene(int scene)
     {
         Destroy(currentScroll); 
-        currentScroll = Instantiate(scrolls[dialogueLine], position, Quaternion.identity, transform);
+        currentScroll = Instantiate(scrolls[dialogueLine], position, Quaternion.identity);
         cutsceneAudio.clip = dialogues[dialogueLine];
         cutsceneAudio.Play();
     }
