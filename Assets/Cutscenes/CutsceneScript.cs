@@ -16,6 +16,7 @@ public class CutsceneScript : MonoBehaviour
     public AudioSource backgroundMusic;
     public AudioClip dungeonTheme;
     public GameObject skipButtonPrefab;
+    public GameObject skipButton; 
     public float skipOffsetX = -1.5f;
     public float skipOffsetY = 0.5f;
     public int playerLayer = 3;
@@ -40,7 +41,7 @@ public class CutsceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cutsceneAudio.isPlaying == false && dialogueLine != -1 && !isPaused)
+        if (cutsceneAudio.isPlaying == false && dialogueLine != -1 && dialogueLine != 10 && !isPaused)
         {
             dialogueLine++;
             if (scrolls[dialogueLine] == null)
@@ -79,7 +80,7 @@ public class CutsceneScript : MonoBehaviour
         cutsceneAudio.clip = dialogues[0];
         backgroundMusic.volume = 0.3f;
         cutsceneAudio.Play();
-        Instantiate(skipButtonPrefab, new Vector2(rightEdge + skipOffsetX, bottomEdge + skipOffsetY), Quaternion.identity);
+        skipButton = Instantiate(skipButtonPrefab, new Vector2(rightEdge + skipOffsetX, bottomEdge + skipOffsetY), Quaternion.identity);
     }
 
     public void NextScene(int scene)
@@ -93,7 +94,8 @@ public class CutsceneScript : MonoBehaviour
     public void EndScene()
     {
         Destroy(currentScroll);
-        dialogueLine = 10; 
+        Destroy(skipButton); 
+        dialogueLine = 10;
         sceneController.ResumeGame(); 
     }
 
