@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: c50dc3812d838f24bb6fa077a0b9f354
+guid: 60db2cc7816786f4aacaf27cfd074522
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2896820212702206167
-    second: Scroll.1.8_0
-  - first:
-      213: -4075706467507228157
-    second: Scroll.1.8_1
+      213: -8281366859788371364
+    second: Scroll.1.9_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Scroll.1.8_0
+      name: Scroll.1.9_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1120
-        height: 338
+        x: 12
+        y: 14
+        width: 1156
+        height: 270
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7d8594ca2a2933820800000000000000
-      internalID: 2896820212702206167
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Scroll.1.8_1
-      rect:
-        serializedVersion: 2
-        x: 901
-        y: 13
-        width: 207
-        height: 322
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3023873df8e2077c0800000000000000
-      internalID: -4075706467507228157
+      spriteID: c5a3f93b7bca21d80800000000000000
+      internalID: -8281366859788371364
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8d0f9e95161438549b93d8a5952bc4a9
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Scroll.1.8_0: 2896820212702206167
-      Scroll.1.8_1: -4075706467507228157
+      Scroll.1.9_0: -8281366859788371364
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3005177012905160656}
   - component: {fileID: 3699366072547167381}
   m_Layer: 5
-  m_Name: Grianmhar
+  m_Name: Cutscene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,38 +371,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ea5b3ef9af6ab4ea3a5aa48f48646c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll1: {fileID: 2477849041928040852, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
-  scroll2: {fileID: 6773736476187671290, guid: d5503c35b8e9f71439515725353c3f68, type: 3}
-  scroll3: {fileID: 1570750847822706277, guid: 25745766e6b741740b3a9f45a92a0e3d, type: 3}
-  scroll4: {fileID: 7726087544346429694, guid: c2634a66956b7cc4687d56e2d3b66c04, type: 3}
-  scroll5: {fileID: 4416415417677678055, guid: ee967274e80be8b4093cd3d09fc84904, type: 3}
-  scroll6: {fileID: 5463018155808273157, guid: fad6c768fdd064e41b8b4f1839e9cdf3, type: 3}
-  scroll7: {fileID: 5878147622241728345, guid: bde89325e50cf2f49aece59bdff25c61, type: 3}
-  scroll8: {fileID: 4869216007552289169, guid: fd70fb59cb39b5448a741a9ded2fe97e, type: 3}
-  scroll9: {fileID: 7986633260685473373, guid: 396bb7fc920eecd4d9beedcc5c8e8472, type: 3}
+  scrolls:
+  - {fileID: 2477849041928040852, guid: d90417bd475597542b4e5d85f7087ebe, type: 3}
+  - {fileID: 6773736476187671290, guid: d5503c35b8e9f71439515725353c3f68, type: 3}
+  - {fileID: 1570750847822706277, guid: 25745766e6b741740b3a9f45a92a0e3d, type: 3}
+  - {fileID: 7726087544346429694, guid: c2634a66956b7cc4687d56e2d3b66c04, type: 3}
+  - {fileID: 4416415417677678055, guid: ee967274e80be8b4093cd3d09fc84904, type: 3}
+  - {fileID: 5463018155808273157, guid: fad6c768fdd064e41b8b4f1839e9cdf3, type: 3}
+  - {fileID: 5878147622241728345, guid: bde89325e50cf2f49aece59bdff25c61, type: 3}
+  - {fileID: 4869216007552289169, guid: fd70fb59cb39b5448a741a9ded2fe97e, type: 3}
+  - {fileID: 7986633260685473373, guid: 396bb7fc920eecd4d9beedcc5c8e8472, type: 3}
+  - {fileID: 0}
   currentScroll: {fileID: 0}
+  scrollOffsetX: 10
+  scrollOffsetY: 3
+  position: {x: 0, y: 0}
   cutsceneAudio: {fileID: 1904570801205810318}
+  dialogues:
+  - {fileID: 8300000, guid: 0853a313d4a566e4ea450a58f9adba9c, type: 3}
+  - {fileID: 8300000, guid: 1c8fb725f1cb9ae4b95a1e71c73f2a01, type: 3}
+  - {fileID: 8300000, guid: c76f29cee33cdf943a2b47558a014019, type: 3}
+  - {fileID: 8300000, guid: 4979c7a697c0a8341abd9e3c99544135, type: 3}
+  - {fileID: 8300000, guid: 4db0e3341f8dde749ae66b1cc352f4d3, type: 3}
+  - {fileID: 8300000, guid: abe8d676392a7ee41874dd5603ca5651, type: 3}
+  - {fileID: 8300000, guid: ab43b0abc8c755a4c859a81251b5fbd5, type: 3}
+  - {fileID: 8300000, guid: cc1271b79ceedbc42b1dbf1de39087dd, type: 3}
+  - {fileID: 8300000, guid: 97c13a2331121964db1ba3a909f45638, type: 3}
+  - {fileID: 0}
+  dialogueLine: -1
   backgroundMusic: {fileID: 3005177012905160656}
   dungeonTheme: {fileID: 8300000, guid: 84d0059961d50bd4dba9ea41616b95a0, type: 3}
-  dialogue1: {fileID: 8300000, guid: 0853a313d4a566e4ea450a58f9adba9c, type: 3}
-  dialogue2: {fileID: 8300000, guid: 1c8fb725f1cb9ae4b95a1e71c73f2a01, type: 3}
-  dialogue3: {fileID: 8300000, guid: c76f29cee33cdf943a2b47558a014019, type: 3}
-  dialogue4: {fileID: 8300000, guid: 4979c7a697c0a8341abd9e3c99544135, type: 3}
-  dialogue5: {fileID: 8300000, guid: 4db0e3341f8dde749ae66b1cc352f4d3, type: 3}
-  dialogue6: {fileID: 8300000, guid: abe8d676392a7ee41874dd5603ca5651, type: 3}
-  dialogue7: {fileID: 8300000, guid: ab43b0abc8c755a4c859a81251b5fbd5, type: 3}
-  dialogue8: {fileID: 8300000, guid: cc1271b79ceedbc42b1dbf1de39087dd, type: 3}
-  dialogue9: {fileID: 8300000, guid: 97c13a2331121964db1ba3a909f45638, type: 3}
-  scene: 0
-  position: {x: 0, y: 0}
+  skipButtonPrefab: {fileID: 7288120699383175478, guid: f8752031deb3a784f864e45c2a1f906d, type: 3}
+  skipOffsetX: 1.95
+  skipOffsetY: 1.3
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
   camera: {fileID: 0}
-  xOffset: 10
-  yOffset: 3
-  knightScript: {fileID: 0}
-  skipButtonPrefab: {fileID: 7288120699383175478, guid: f8752031deb3a784f864e45c2a1f906d, type: 3}
-  skipOffsetX: 1.95
-  skipOffsetY: 1.3
+  sceneController: {fileID: 0}
   isPaused: 0

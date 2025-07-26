@@ -118,7 +118,7 @@ public class KnightMoveScript : MonoBehaviour
 
     public void resumeMovement()
     {
-        isPaused = !isPaused;
+        isPaused = false;
     }
 }
 

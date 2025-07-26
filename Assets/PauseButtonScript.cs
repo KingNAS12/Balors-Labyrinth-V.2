@@ -6,7 +6,7 @@ public class PauseButtonScript : MonoBehaviour
     public Camera camera;
     public float xOffset = -0.5f;
     public float yOffset = 0.5f;
-    public KnightMoveScript KnightMoveScript; 
+    public SceneControllerScript SceneController; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,20 +20,34 @@ public class PauseButtonScript : MonoBehaviour
         float bottomEdge = camPos.y - vertExtent;
         //float topEdge = camPos.y + vertExtent;
         transform.position = new Vector2(rightEdge + xOffset, bottomEdge + yOffset);
-        KnightMoveScript = GameObject.Find("Knight").GetComponent<KnightMoveScript>();
+        SceneController = GameObject.Find("SceneController").GetComponent<SceneControllerScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape) == true)
+        if (Input.GetKeyUp(KeyCode.Escape) == true)
         {
-            KnightMoveScript.pauseMovement();
+            if (SceneController.isPaused)
+            {
+                SceneController.ResumeGame();
+            }
+            else
+            {
+                SceneController.PauseGame();
+            }
         }
     }
 
     public void OnButtonClick()
     {
-        KnightMoveScript.pauseMovement();
+        if (SceneController.isPaused)
+        {
+            SceneController.ResumeGame();
+        }
+        else
+        {
+            SceneController.PauseGame();
+        }
     }
 }
