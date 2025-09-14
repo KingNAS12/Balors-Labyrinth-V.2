@@ -41,7 +41,7 @@ public class CutsceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cutsceneAudio.isPlaying == false && dialogueLine != -1 && dialogueLine != 10 && !isPaused)
+        if (cutsceneAudio.isPlaying == false && dialogueLine > -1 && dialogueLine < 10 && !isPaused)
         {
             dialogueLine++;
             if (scrolls[dialogueLine] == null)
@@ -78,7 +78,7 @@ public class CutsceneScript : MonoBehaviour
         currentScroll = Instantiate(scrolls[0], position, Quaternion.identity);
         dialogueLine = 0; 
         cutsceneAudio.clip = dialogues[0];
-        backgroundMusic.volume = 0.3f;
+        backgroundMusic.volume = 0.1f;
         cutsceneAudio.Play();
         skipButton = Instantiate(skipButtonPrefab, new Vector2(rightEdge + skipOffsetX, bottomEdge + skipOffsetY), Quaternion.identity);
     }
@@ -104,12 +104,12 @@ public class CutsceneScript : MonoBehaviour
         isPaused = true;
         backgroundMusic.Stop();
         cutsceneAudio.Stop();
-        dialogueLine--;
     }
 
     public void ResumeScene()
     {
         isPaused = false;
         backgroundMusic.Play();
+        cutsceneAudio.Play();
     }
 }

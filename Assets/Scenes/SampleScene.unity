@@ -474,7 +474,7 @@ MonoBehaviour:
   tileSizeX: 24
   tileSizeY: 24
   stackSize: 0
-  stackLimit: 250
+  stackLimit: 500
   created: 0
 --- !u!1 &1065225850
 GameObject:

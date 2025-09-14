@@ -10,6 +10,8 @@ public class KnightAttackScript : MonoBehaviour
     public bool attackingSound = false;
     public bool blockingSound = false;
 
+    public bool isPaused = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +21,10 @@ public class KnightAttackScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkAttack(); 
+        if (!isPaused)
+        {
+            checkAttack();
+        }
     }
 
     public void checkAttack() // Check the user's input and accordingly use weapons. 
@@ -63,5 +68,15 @@ public class KnightAttackScript : MonoBehaviour
                 blockingSound = false;
             }
         }
+    }
+
+    public void pauseAttack()
+    {
+        isPaused = true;
+    }
+
+    public void resumeAttack()
+    {
+        isPaused = false;
     }
 }

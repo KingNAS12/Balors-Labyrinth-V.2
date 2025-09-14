@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 1eb6dac8b2fe20748992aca297ddea9c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - KnightMoveScript: {instanceID: 0}
+  - KnightAttackScript: {instanceID: 0}
+  - CutsceneScript: {instanceID: 0}
+  - PauseMenuPrefab: {fileID: 2475568736124267338, guid: 87e0eff92c5a36343a468955e97834e7, type: 3}
+  - PauseMenu: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

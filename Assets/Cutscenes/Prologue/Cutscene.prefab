@@ -402,6 +402,7 @@ MonoBehaviour:
   backgroundMusic: {fileID: 3005177012905160656}
   dungeonTheme: {fileID: 8300000, guid: 84d0059961d50bd4dba9ea41616b95a0, type: 3}
   skipButtonPrefab: {fileID: 7288120699383175478, guid: f8752031deb3a784f864e45c2a1f906d, type: 3}
+  skipButton: {fileID: 0}
   skipOffsetX: 1.95
   skipOffsetY: 1.3
   playerLayer: 3

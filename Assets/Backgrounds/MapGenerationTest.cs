@@ -38,8 +38,8 @@ public class MapGenerationTest : MonoBehaviour
         bool newNorth = false;
         bool newEast = false;
         bool newSouth = false;
-        if (i <= 10)
-        {
+        //if (i <= 10)
+        //{
             i++;
             if (recursingTileScript.GetWest() == null)
             {
@@ -78,7 +78,7 @@ public class MapGenerationTest : MonoBehaviour
                 GenerationRecursion(recursingTileScript.GetSouth(), i);
             }
 
-        }
+        /*}
         else
         {
             i--; 
@@ -98,7 +98,7 @@ public class MapGenerationTest : MonoBehaviour
             {
                 recursingTileScript.SetSouth(blockedTile);
             }
-        }
+        }*/
     }
 
     public GameObject Generate(GameObject parentNode, string childDirection, int i)

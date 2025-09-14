@@ -64,6 +64,7 @@ public class KnightMoveScript : MonoBehaviour
                 transform.Translate(new Vector2(turnSpeed * Time.deltaTime, 0));
             }
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
         }
         float x1 = 0;
         float y1 = 0;
