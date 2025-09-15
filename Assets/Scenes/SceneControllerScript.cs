@@ -8,8 +8,6 @@ public class SceneControllerScript : MonoBehaviour
     public KnightAttackScript KnightAttackScript; 
     public CutsceneScript CutsceneScript; 
     public bool isPaused = false;
-    public GameObject PauseMenuPrefab;
-    public GameObject PauseMenu;
 
     private void Start()
     {
@@ -27,7 +25,6 @@ public class SceneControllerScript : MonoBehaviour
         {
             CutsceneScript.PauseScene();
         }
-        PauseMenu = Instantiate(PauseMenuPrefab); 
     }
 
     public void ResumeGame()
@@ -43,7 +40,6 @@ public class SceneControllerScript : MonoBehaviour
             KnightMoveScript.resumeMovement();
             KnightAttackScript.resumeAttack();
         }
-        Destroy(PauseMenu);
     }
 
     public void ExitGame()

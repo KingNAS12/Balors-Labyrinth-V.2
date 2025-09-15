@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class SkipCutsceneScript : MonoBehaviour
 {
-    public CutsceneScript CutsceneScript; 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CutsceneScript = GameObject.Find("Cutscene").GetComponent<CutsceneScript>();
+        
     }
 
     // Update is called once per frame
@@ -15,17 +13,12 @@ public class SkipCutsceneScript : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Space) == true)
         {
-            NextDialogue(); 
+            Skip(); 
         }
     }
 
-    public void OnButtonClick()
+    public void Skip()
     {
-        NextDialogue();
-    }
-
-    public void NextDialogue()
-    {
-        CutsceneScript.cutsceneAudio.Stop(); 
+        GameObject.Find("Cutscene").GetComponent<CutsceneScript>().cutsceneAudio.Stop(); 
     }
 }

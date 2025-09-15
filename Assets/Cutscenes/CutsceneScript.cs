@@ -9,33 +9,24 @@ public class CutsceneScript : MonoBehaviour
     public GameObject currentScroll = null;
     public float scrollOffsetX = 10;
     public float scrollOffsetY = 3;
-    public Vector2 position; 
-    public AudioSource cutsceneAudio; 
+    public Vector2 position;
+    public AudioSource cutsceneAudio;
     public AudioClip[] dialogues = new AudioClip[10];
     public int dialogueLine = -1;
     public AudioSource backgroundMusic;
     public AudioClip dungeonTheme;
-    public GameObject skipButtonPrefab;
-    public GameObject skipButton; 
-    public float skipOffsetX = -1.5f;
-    public float skipOffsetY = 0.5f;
     public int playerLayer = 3;
     public Camera camera;
+    public GameObject SkipButtonPrefab;
+    public GameObject SkipButton;
     public SceneControllerScript sceneController;
-    public bool isPaused = false; 
+    public bool isPaused = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        cutsceneAudio.loop = false;
-        cutsceneAudio.volume = 0.5f;
-        backgroundMusic.loop = false;
-        backgroundMusic.volume = 0.5f;
-        backgroundMusic.clip = dungeonTheme;
-        backgroundMusic.loop = true;  
-        backgroundMusic.Play(); 
         camera = Camera.main;
-        sceneController = GameObject.Find("SceneController").GetComponent<SceneControllerScript>(); 
+        sceneController = GameObject.Find("SceneController").GetComponent<SceneControllerScript>();
     }
 
     // Update is called once per frame
@@ -43,14 +34,14 @@ public class CutsceneScript : MonoBehaviour
     {
         if (cutsceneAudio.isPlaying == false && dialogueLine > -1 && dialogueLine < 10 && !isPaused)
         {
-            dialogueLine++;
-            if (scrolls[dialogueLine] == null)
+            dialogueLine++; 
+            if (dialogueLine == 10 || scrolls[dialogueLine] == null)
             {
                 EndScene();
             }
             else
             {
-                NextScene(dialogueLine);
+                NextScene(); 
             }
         }
     }
@@ -66,7 +57,7 @@ public class CutsceneScript : MonoBehaviour
     public void StartCutscene()
     {
         sceneController.PauseGame();
-        isPaused = false; 
+        isPaused = false;
         float vertExtent = camera.orthographicSize;
         float horzExtent = vertExtent * Screen.width / Screen.height;
         Vector3 camPos = camera.transform.position;
@@ -74,27 +65,30 @@ public class CutsceneScript : MonoBehaviour
         float rightEdge = camPos.x + horzExtent;
         float bottomEdge = camPos.y - vertExtent;
         //float topEdge = camPos.y + vertExtent;
-        position = new Vector2(leftEdge + scrollOffsetX, bottomEdge + scrollOffsetY); 
+        position = new Vector2(leftEdge + scrollOffsetX, bottomEdge + scrollOffsetY);
         currentScroll = Instantiate(scrolls[0], position, Quaternion.identity);
-        dialogueLine = 0; 
-        cutsceneAudio.clip = dialogues[0];
+        SkipButton = Instantiate(SkipButtonPrefab);
+        dialogueLine = 0;
         backgroundMusic.volume = 0.1f;
+        cutsceneAudio.clip = dialogues[0];
+        cutsceneAudio.volume = 0.5f;
+        cutsceneAudio.loop = false;
         cutsceneAudio.Play();
-        skipButton = Instantiate(skipButtonPrefab, new Vector2(rightEdge + skipOffsetX, bottomEdge + skipOffsetY), Quaternion.identity);
     }
 
-    public void NextScene(int scene)
+    public void NextScene()
     {
-        Destroy(currentScroll); 
+        Destroy(currentScroll);
         currentScroll = Instantiate(scrolls[dialogueLine], position, Quaternion.identity);
         cutsceneAudio.clip = dialogues[dialogueLine];
         cutsceneAudio.Play();
+
     }
 
     public void EndScene()
     {
         Destroy(currentScroll);
-        Destroy(skipButton); 
+        Destroy(SkipButton); 
         dialogueLine = 10;
         sceneController.ResumeGame(); 
     }
