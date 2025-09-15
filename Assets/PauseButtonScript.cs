@@ -34,7 +34,7 @@ public class PauseButtonScript : MonoBehaviour
         float rightEdge = camPos.x + horzExtent;
         float bottomEdge = camPos.y - vertExtent;
         //float topEdge = camPos.y + vertExtent;
-        transform.position = new Vector2(rightEdge + xOffset, bottomEdge + yOffset);
+        transform.position = camera.ScreenToWorldPoint(new Vector2(rightEdge + xOffset, bottomEdge + yOffset));
         if (Input.GetKeyUp(KeyCode.Escape) == true)
         {
             Pause(); 
