@@ -1,10 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SluaghSpawnScript : MonoBehaviour
 {
     public GameObject sluaghPrefab;
     public GameObject Player;
-    public bool rightSide = true;
     public float spawnCooldown = 1.5f;
     public float spawnCooldownTimer = 0;
     public bool canSpawn = false; 
@@ -24,15 +24,14 @@ public class SluaghSpawnScript : MonoBehaviour
             if (spawnCooldownTimer > spawnCooldown)
             {
                 spawnCooldownTimer = 0;
-                if (rightSide)
+                int side = UnityEngine.Random.Range(0, 2); 
+                if (side == 0)
                 {
                     Instantiate(sluaghPrefab, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, transform);
-                    rightSide = false;
                 }
                 else
                 {
                     Instantiate(sluaghPrefab, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, transform);
-                    rightSide = true;
                 }
             }
         }

@@ -141,8 +141,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KnightMoveScript: {fileID: 0}
+  KnightAttackScript: {fileID: 0}
   CutsceneScript: {fileID: 0}
   isPaused: 0
+  PauseMenuPrefab: {fileID: 0}
+  PauseMenu: {fileID: 0}
 --- !u!1 &4898357344299629821
 GameObject:
   m_ObjectHideFlags: 0

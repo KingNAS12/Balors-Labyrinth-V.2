@@ -151,4 +151,4 @@ MonoBehaviour:
   backgroundLayer:
     serializedVersion: 2
     m_Bits: 32
-  speed: -7
+  speed: -10

@@ -605,3 +605,4 @@ MonoBehaviour:
   knightBlockGrunt: {fileID: 8300000, guid: 245742cf37a580146a72e7fbfca378c9, type: 3}
   attackingSound: 0
   blockingSound: 0
+  isPaused: 0
